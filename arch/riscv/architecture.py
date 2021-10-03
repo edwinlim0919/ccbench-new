@@ -16,7 +16,8 @@ import ccbench
 def runBenchmark(processor, app_bin, app_args, report_filename):
     
     if (processor == "spike"):
-        cmd = "spike pk "
+        # cmd = "spike pk "
+        cmd = "spike "
     else:
         cmd = "emulator +dramsim pk " 
 

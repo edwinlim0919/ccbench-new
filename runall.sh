@@ -12,22 +12,19 @@
 # comment out the necessary steps in the code below if your machine doesn't
 # support the above operations. 
 
-
-
 #run tests on local machine, or run tests on remote machines?
 RUN_LOCAL=1
 
-
 # Which tests and input sizes do we want to use?
-#TESTS=(caches band_req band_req_mc cache2cache mem_interleaving)
+# TESTS=(caches band_req band_req_mc cache2cache mem_interleaving)
 TESTS=(caches)
-INPUTSIZE="small"
+# INPUTSIZE="small"
 # if you're running riscv, you'll want much shorter input vectors!
-#INPUTSIZE="riscv"
+INPUTSIZE="riscv"
 
 # Information for running on the local machine
-local_proc="unknown"         
-architecture="x86"
+local_proc="spike"         
+architecture="riscv"
 
 # Information for running on remote host machines
 HOST_CC_DIR="~/ccbench/"
