@@ -1,19 +1,16 @@
 #!/usr/bin/bash
-HOME_DIR=/home/centos/firesim
-cd $HOME_DIR
-
-# Initialize copy directory if it does not exist
-COPY_DIR=${HOME_DIR}/caches-br-results
-if [ ! -d "$COPY_DIR" ]; then
-    mkdir $COPY_DIR
-fi
+HOME_DIR=~/firesim
+RESULT_DIR=${HOME_DIR}/deploy/results-workload
+WORK_DIR=${HOME_DIR}/target-design/chipyard/generators/ccbench-new
+cd $WORK_DIR
 
 # Clear copy directory if it is not empty
+COPY_DIR=${WORK_DIR}/results
 if [ ! -z "$(ls -A $COPY_DIR)" ]; then
     rm -r ${COPY_DIR}/*
 fi
 
-# Initialize separate directories for different configurations
+# Initialize separate directories for each different configuration
 mkdir ${COPY_DIR}/8-way-set-associative
 mkdir ${COPY_DIR}/4-way-set-associative
 mkdir ${COPY_DIR}/2-way-set-associative
@@ -53,23 +50,23 @@ two_way_set=(1 14 7 8 1 14 7 8 1 14 7 8 1 14 7 8)
 direct_mapped=(0 15 7 8 0 15 7 8 0 15 7 8 0 15 7 8)
 
 
-# Kill any simulation that may be currently running
+# Run sweep with default config
 firesim kill
 
-# Run sweep with default config
 for i in ${!LLC_settings[@]}; do
     python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${eight_way_set[$i]}
 done
 firesim infrasetup
 firesim runworkload
 
-RESULT_DIR=${HOME_DIR}/deploy/results-workload
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
 cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/run_result.csv ${COPY_DIR}/8-way-set-associative/run_result.csv
 cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/8-way-set-associative/uartlog
 
 
 # Run sweep with 4-way config
+firesim kill
+
 for i in ${!LLC_settings[@]}; do
     python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${four_way_set[$i]}
 done
@@ -82,6 +79,8 @@ cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/4-way-set-a
 
 
 # Run sweep with 2-way set associative
+firesim kill
+
 for i in ${!LLC_settings[@]}; do
     python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${two_way_set[$i]}
 done
@@ -94,6 +93,8 @@ cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/2-way-set-a
 
 
 # Run sweep with direct mapped
+firesim kill
+
 for i in ${!LLC_settings[@]}; do
     python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${direct_mapped[$i]}
 done
