@@ -2,7 +2,7 @@
   "name" : "caches-br",
   "base" : "br-base.json",
   "overlay" : "overlay",
-  "linux-src" : "../../linux",
+  "linux-src" : "../../linux-versions/linux",
   "jobs" : [
     {
       "name" : "caches",
