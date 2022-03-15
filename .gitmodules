@@ -1,0 +1,3 @@
+[submodule "software/linux-versions/protomegaboom-linux"]
+	path = software/linux-versions/protomegaboom-linux
+	url = https://github.com/firesim/linux/tree/4c3d3170441307429e843ece436f60e314876232
