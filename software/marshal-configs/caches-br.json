@@ -1,0 +1,13 @@
+{
+  "name" : "caches-br",
+  "base" : "br-base.json",
+  "overlay" : "overlay",
+  "linux-src" : "../../linux",
+  "jobs" : [
+    {
+      "name" : "caches",
+      "outputs" : [ "/root/run_result.csv" ],
+      "run" : "runCaches.sh"
+    }
+  ]
+}
