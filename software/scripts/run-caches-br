@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 HOME_DIR=~/firesim
 RESULT_DIR=${HOME_DIR}/deploy/results-workload
-WORK_DIR=${HOME_DIR}/target-design/chipyard/generators/ccbench-new
+WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new
 cd $WORK_DIR
 
 # Clear copy directory if it is not empty
