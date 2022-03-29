@@ -15,7 +15,7 @@ import sys
 result_dir = '../../results'
 plot_dir = '../../plots'
 result_file = '/run_result.csv'
-full_plot_separate = '/full_plot_separate'
+full_plot_separate = '/full_plot_separate.pdf'
 full_plot_together = '/full_plot_together.pdf'
 range_plot_separate = '/range_plot_separate.pdf'
 range_plot_together = '/range_plot_together.pdf'
