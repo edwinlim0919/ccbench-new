@@ -33,6 +33,11 @@ $(TARGET): $(OBJECTS)
 	then $(CC) $(CFLAGS) $^ -o $@ $(LD_FLAGS) $(LD_LIBS); \
 	fi
 
+#$(TARGET): $(OBJECTS)
+#	if $(foreach source,$(OBJECTS),[ $(source) -nt $(TARGET) ] ||) 1; \
+#	then $(CC) $(CFLAGS) -T ../common/link.ld $^ -o $@ $(LDFLAGS) $(LD_LIBS); \
+#	fi
+
 run: $(TARGET)
 	./$(TARGET) $(APP_FLAGS)
 
