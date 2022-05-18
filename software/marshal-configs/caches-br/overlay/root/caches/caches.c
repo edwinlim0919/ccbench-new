@@ -48,6 +48,7 @@ uint32_t  g_num_cores;
 uint32_t  g_num_elements;  
 uint32_t  g_num_iterations;
 uint32_t  g_performed_iterations;
+double    MB_per_sec;
 
 int g_stride;
 int g_run_type;  // choose between stride size, or random stride 
@@ -112,6 +113,11 @@ int main(int argc, char* argv[])
    uint32_t volatile ret_val = threadMain();  
 
 #ifdef PRINT_SCRIPT_FRIENDLY
+   // MB/sec = iteration/cycle * cycle/sec * MB/iteration
+   // cycle/sec = 2GHz = 2 * 10^9
+   // B/iteration = 4 (reading 32 bits from memory every iteration)
+   // MB/iteration = 4B / iteration * (1MB / 1048576B)
+
    fprintf(stdout, "App:[caches],NumThreads:[%d],AppSize:[%d],Time:[%g], TimeUnits:[Cycles Per Iteration],NumIterations:[%u],RunType:[%d]\n",
       g_num_cores,
       g_num_elements,
