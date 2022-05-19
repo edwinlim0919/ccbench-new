@@ -122,9 +122,9 @@ int main(int argc, char* argv[])
       g_num_cores,
       g_num_elements,
       ((double) run_cycles / (double) g_performed_iterations),
-	   g_performed_iterations,
+      g_performed_iterations,
       g_run_type
-      );
+   );
 #endif
 
 #ifdef DEBUG
