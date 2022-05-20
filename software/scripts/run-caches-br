@@ -2,22 +2,7 @@
 HOME_DIR=~/firesim
 RESULT_DIR=${HOME_DIR}/deploy/results-workload
 WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new
-cd $WORK_DIR
-
-# Clear copy directory if it is not empty
 COPY_DIR=${WORK_DIR}/results
-if [ ! -z "$(ls -A $COPY_DIR)" ]; then
-    rm -r ${COPY_DIR}/*
-fi
-
-# Initialize separate directories for each different configuration
-mkdir ${COPY_DIR}/8-way-set-associative
-mkdir ${COPY_DIR}/4-way-set-associative
-mkdir ${COPY_DIR}/2-way-set-associative
-mkdir ${COPY_DIR}/direct-mapped
-
-
-# Runtime configuration parameters for LLC
 LLC_settings=(
     "mm_llc_wayBits_0"
     "mm_llc_setBits_0"
@@ -36,19 +21,24 @@ LLC_settings=(
     "mm_llc_blockBits_3"
     "mm_llc_activeMSHRs_3"
 )
-
-# 8-way set associative (default settings)
+direct_mapped=(0 15 7 8 0 15 7 8 0 15 7 8 0 15 7 8)
+two_way_set=(1 14 7 8 1 14 7 8 1 14 7 8 1 14 7 8)
+four_way_set=(2 13 7 8 2 13 7 8 2 13 7 8 2 13 7 8)
 eight_way_set=(3 12 7 8 3 12 7 8 3 12 7 8 3 12 7 8)
 
-# 4-way set associative
-four_way_set=(2 13 7 8 2 13 7 8 2 13 7 8 2 13 7 8)
 
-# 2-way set associative
-two_way_set=(1 14 7 8 1 14 7 8 1 14 7 8 1 14 7 8)
+cd $WORK_DIR
 
-# direct mapped
-direct_mapped=(0 15 7 8 0 15 7 8 0 15 7 8 0 15 7 8)
+# Clear copy directory if it is not empty
+if [ ! -z "$(ls -A $COPY_DIR)" ]; then
+    rm -r ${COPY_DIR}/*
+fi
 
+# Initialize separate directories for each different configuration
+mkdir ${COPY_DIR}/8-way-set-associative
+mkdir ${COPY_DIR}/4-way-set-associative
+mkdir ${COPY_DIR}/2-way-set-associative
+mkdir ${COPY_DIR}/direct-mapped
 
 # Run sweep with default config
 firesim kill

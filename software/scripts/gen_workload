@@ -7,6 +7,9 @@ WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new
 MARSHAL_CONFIG_DIR=${WORK_DIR}/software/marshal-configs
 CURR_DIR=$(pwd)
 
+cd $HOME_DIR
+source sourceme-f1-manager.sh
+
 cd /home/centos/firesim/target-design/chipyard/software/firemarshal
 ./marshal build ${MARSHAL_CONFIG_DIR}/caches-br.json
 ./marshal install ${MARSHAL_CONFIG_DIR}/caches-br.json

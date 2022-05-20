@@ -1,0 +1,13 @@
+{
+  "name" : "strided-br",
+  "base" : "br-base.json",
+  "overlay" : "overlay",
+  "linux-src" : "../../linux-versions/protomegaboom-linux",
+  "jobs" : [
+    {
+      "name" : "strided",
+      "outputs" : [ "/root/run_result.csv" ],
+      "run" : "runStrided.sh"
+    }
+  ]
+}
