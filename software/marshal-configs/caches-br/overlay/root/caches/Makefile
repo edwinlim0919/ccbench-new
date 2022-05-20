@@ -1,5 +1,5 @@
 CC=riscv64-unknown-linux-gnu-gcc
-CFLAGS=-Wall -std=gnu99 -fno-common -fno-builtin-printf -ffast-math -funroll-loops -I../common
+CFLAGS=-Wall -std=gnu99 -fno-common -fno-builtin-printf -ffast-math -funroll-loops -I.
 SOURCES=caches.c cctimer.c cclfsr.c
 
 LD_FLAGS=-static -ffast-math
