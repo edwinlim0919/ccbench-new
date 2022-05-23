@@ -40,11 +40,12 @@ mkdir ${COPY_DIR}/4-way-set-associative
 mkdir ${COPY_DIR}/2-way-set-associative
 mkdir ${COPY_DIR}/direct-mapped
 
+
 # Run sweep with default config
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${eight_way_set[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${eight_way_set[$i]}
 done
 firesim infrasetup
 firesim runworkload
@@ -58,7 +59,7 @@ cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/8-way-set-a
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${four_way_set[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${four_way_set[$i]}
 done
 firesim infrasetup
 firesim runworkload
@@ -72,7 +73,7 @@ cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/4-way-set-a
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${two_way_set[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${two_way_set[$i]}
 done
 firesim infrasetup
 firesim runworkload
@@ -86,7 +87,7 @@ cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/2-way-set-a
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change_conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${direct_mapped[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${direct_mapped[$i]}
 done
 firesim infrasetup
 firesim runworkload
