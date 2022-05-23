@@ -1,11 +1,11 @@
 # Python script to change custom runtime configuration parameters
 #     
-# Arguments:
+# Arguments
 #     arg1: filename within ~/firesim/sim/custom-runtime-configs/
 #     arg2: name of parameter you want to change
 #     arg3: new value of parameter you want to change
 #
-# Example:
+# Example
 #     python3 change-conf.py fased_sweep.conf mm_llc_wayBits_0 2
 import sys
 

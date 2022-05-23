@@ -2,7 +2,10 @@
 
 # Builds and installs a given workload in /ccbench-new/software/marshal-configs
 #
-# Example Usage:
+# Arguments
+#     arg1: workload name
+#
+# Example Usage
 #     ./gen_workload caches-br.json
 HOME_DIR=/home/centos/firesim
 WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new

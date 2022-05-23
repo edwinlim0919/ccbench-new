@@ -1,11 +1,11 @@
 # Generates plots from ccbench cache benchmarks based on arguments provided
-#     arg1: lower cutoff of range
-#     arg2: upper cutoff of range
 #
-# Sizes for ProtoMegaBoomBaseConfigNoAccel
-#     arg1: 32 KB = 32768
-#     arg2: 512 KB = 2^19 B = 524288
-#     arg3: 2^27 B = 134217728 B
+# Arguments
+#     arg1: lower cutoff of range in bytes
+#     arg2: upper cutoff of range in bytes
+#
+# Example Usage
+#     plot-caches-br.py 32768 524288
 import matplotlib
 import matplotlib.pyplot as plt
 import re

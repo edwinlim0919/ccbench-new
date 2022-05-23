@@ -1,8 +1,19 @@
 #!/usr/bin/bash
-HOME_DIR=~/firesim
+
+# Runs a given workload on multiple different LLC cache configurations to obtain 
+# FASED performance results
+#
+# Arguments
+#     arg1: workload name
+#     arg2: job name
+#
+# Example Usage
+#     ./run-cache-sweep caches-br caches
+HOME_DIR=/home/centos/firesim
 RESULT_DIR=${HOME_DIR}/deploy/results-workload
 WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new
 COPY_DIR=${WORK_DIR}/results
+JOB_NAME=${1}-${2}
 LLC_settings=(
     "mm_llc_wayBits_0"
     "mm_llc_setBits_0"
@@ -51,8 +62,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/run_result.csv ${COPY_DIR}/8-way-set-associative/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/8-way-set-associative/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/8-way-set-associative/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/8-way-set-associative/uartlog
 
 
 # Run sweep with 4-way config
@@ -65,8 +76,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/run_result.csv ${COPY_DIR}/4-way-set-associative/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/4-way-set-associative/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/4-way-set-associative/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/4-way-set-associative/uartlog
 
 
 # Run sweep with 2-way set associative
@@ -79,8 +90,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/run_result.csv ${COPY_DIR}/2-way-set-associative/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/2-way-set-associative/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/2-way-set-associative/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/2-way-set-associative/uartlog
 
 
 # Run sweep with direct mapped
@@ -93,5 +104,5 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/run_result.csv ${COPY_DIR}/direct-mapped/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/caches-br-caches/uartlog ${COPY_DIR}/direct-mapped/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/direct-mapped/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/direct-mapped/uartlog
