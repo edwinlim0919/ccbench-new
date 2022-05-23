@@ -6,7 +6,7 @@
 #     arg3: new value of parameter you want to change
 #
 # Example:
-#     python3 change_conf.py fased_sweep.conf mm_llc_wayBits_0 2
+#     python3 change-conf.py fased_sweep.conf mm_llc_wayBits_0 2
 import sys
 
 # replaces parameter specified by string param with newval in fdata and returns modifed data

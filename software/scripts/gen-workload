@@ -1,8 +1,10 @@
 #!/usr/bin/bash
 
-# Builds and installs caches-br workload (currently)
-# TODO: Allow script to accept arguments on which workloads to build + install
-HOME_DIR=~/firesim
+# Builds and installs a given workload in /ccbench-new/software/marshal-configs
+#
+# Example Usage:
+#     ./gen_workload caches-br.json
+HOME_DIR=/home/centos/firesim
 WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new
 MARSHAL_CONFIG_DIR=${WORK_DIR}/software/marshal-configs
 CURR_DIR=$(pwd)
@@ -11,7 +13,7 @@ cd $HOME_DIR
 source sourceme-f1-manager.sh
 
 cd /home/centos/firesim/target-design/chipyard/software/firemarshal
-./marshal build ${MARSHAL_CONFIG_DIR}/caches-br.json
-./marshal install ${MARSHAL_CONFIG_DIR}/caches-br.json
+./marshal build ${MARSHAL_CONFIG_DIR}/${1}
+./marshal install ${MARSHAL_CONFIG_DIR}/${1}
 
 cd $CURR_DIR
