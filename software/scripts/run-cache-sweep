@@ -32,11 +32,11 @@ LLC_settings=(
     "mm_llc_blockBits_3"
     "mm_llc_activeMSHRs_3"
 )
-direct_mapped=(0 15 7 8 0 15 7 8 0 15 7 8 0 15 7 8)
-two_way_set=(1 14 7 8 1 14 7 8 1 14 7 8 1 14 7 8)
-four_way_set=(2 13 7 8 2 13 7 8 2 13 7 8 2 13 7 8)
-eight_way_set=(3 12 7 8 3 12 7 8 3 12 7 8 3 12 7 8)
-
+MiB4_8_way_set=(3 12 7 8 3 12 7 8 3 12 7 8 3 12 7 8)
+MiB4_4_way_set=(2 13 7 8 2 13 7 8 2 13 7 8 2 13 7 8)
+MiB4_2_way_set=(1 14 7 8 1 14 7 8 1 14 7 8 1 14 7 8)
+MiB4_direct_mapped=(0 15 7 8 0 15 7 8 0 15 7 8 0 15 7 8)
+MiB32_direct_mapped=(0 18 7 8 0 18 7 8 0 18 7 8 0 18 7 8)
 
 cd $WORK_DIR
 
@@ -46,63 +46,79 @@ if [ ! -z "$(ls -A $COPY_DIR)" ]; then
 fi
 
 # Initialize separate directories for each different configuration
-mkdir ${COPY_DIR}/8-way-set-associative
-mkdir ${COPY_DIR}/4-way-set-associative
-mkdir ${COPY_DIR}/2-way-set-associative
-mkdir ${COPY_DIR}/direct-mapped
+mkdir ${COPY_DIR}/MiB4_8_way_set
+mkdir ${COPY_DIR}/MiB4_4_way_set
+mkdir ${COPY_DIR}/MiB4_2_way_set
+mkdir ${COPY_DIR}/MiB4_direct_mapped
+mkdir ${COPY_DIR}/MiB32_direct_mapped
 
 
-# Run sweep with default config
+# Run sweep with 4 MiB 8-way
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${eight_way_set[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${MiB4_8_way_set[$i]}
 done
 firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/8-way-set-associative/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/8-way-set-associative/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_8_way_set/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/MiB4_8_way_set/uartlog
 
 
-# Run sweep with 4-way config
+# Run sweep with 4 MiB 4-way
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${four_way_set[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${MiB4_4_way_set[$i]}
 done
 firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/4-way-set-associative/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/4-way-set-associative/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_4_way_set/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/MiB4_4_way_set/uartlog
 
 
-# Run sweep with 2-way set associative
+# Run sweep with 4 MiB 2-way
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${two_way_set[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${MiB4_2_way_set[$i]}
 done
 firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/2-way-set-associative/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/2-way-set-associative/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_2_way_set/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/MiB4_2_way_set/uartlog
 
 
-# Run sweep with direct mapped
+# Run sweep with 4 MiB direct mapped
 firesim kill
 
 for i in ${!LLC_settings[@]}; do
-    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${direct_mapped[$i]}
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${MiB4_direct_mapped[$i]}
 done
 firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/direct-mapped/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/direct-mapped/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_direct_mapped/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/MiB4_direct_mapped/uartlog
+
+
+# Run sweep with 32 MiB direct mapped
+firesim kill
+
+for i in ${!LLC_settings[@]}; do
+    python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${MiB32_direct_mapped[$i]}
+done
+firesim infrasetup
+firesim runworkload
+
+RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/run_result.csv ${COPY_DIR}/MiB32_direct_mapped/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${JOB_NAME}/uartlog ${COPY_DIR}/MiB32_direct_mapped/uartlog
+
