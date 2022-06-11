@@ -7,9 +7,9 @@
 #     arg1: workload name
 #     arg2: job name
 #
-# Supported workloads/jobs
-#     caches-br caches
-#     strided-br strided
+# Supported workload : jobs
+#     caches-br  : caches
+#     strided-br : strided
 #
 # Example Usage
 #     ./run-cache-sweep caches-br caches
@@ -18,10 +18,10 @@ RESULT_DIR=${HOME_DIR}/deploy/results-workload
 WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new
 COPY_DIR=${WORK_DIR}/results
 FIRESIM_CONFIGS=${WORK_DIR}/software/firesim-configs
-WORKLOAD_JOB_NAME=${1}-${2}
-JOB_NAME=${2}
-RUNTIME_CONFIG_LLC=FASED_LLC_${JOB_NAME}_sweep_runtime.ini
-RUNTIME_CONFIG_NO_LLC=FASED_no_LLC_${JOB_NAME}_sweep_runtime.ini
+WORKLOAD=${1}
+JOB=${2}
+RUNTIME_CONFIG_LLC=FASED_LLC_${WORKLOAD}_sweep_runtime.ini
+RUNTIME_CONFIG_NO_LLC=FASED_no_LLC_${WORKLOAD}_sweep_runtime.ini
 LLC_settings=(
     "mm_llc_wayBits_0"
     "mm_llc_setBits_0"
@@ -72,16 +72,15 @@ firesim runworkload
 firesim terminaterunfarm
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/run_result.csv ${COPY_DIR}/no_LLC/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/uartlog ${COPY_DIR}/no_LLC/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/run_result.csv ${COPY_DIR}/no_LLC/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/uartlog ${COPY_DIR}/no_LLC/uartlog
 
 
 # Configuring config_runtime.ini for the LLC sims
 cp ${FIRESIM_CONFIGS}/${RUNTIME_CONFIG_LLC} ${HOME_DIR}/deploy/config_runtime.ini
-
-# Run sweep with 4 MiB 8-way
 firesim launchrunfarm
 
+# Run sweep with 4 MiB 8-way
 for i in ${!LLC_settings[@]}; do
     python3 change-conf.py fased_sweep_protomegaboom.conf ${LLC_settings[$i]} ${MiB4_8_way_set[$i]}
 done
@@ -89,9 +88,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_8_way_set/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/uartlog ${COPY_DIR}/MiB4_8_way_set/uartlog
-
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/run_result.csv ${COPY_DIR}/MiB4_8_way_set/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/uartlog ${COPY_DIR}/MiB4_8_way_set/uartlog
 
 # Run sweep with 4 MiB 4-way
 firesim kill
@@ -103,9 +101,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_4_way_set/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/uartlog ${COPY_DIR}/MiB4_4_way_set/uartlog
-
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/run_result.csv ${COPY_DIR}/MiB4_4_way_set/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/uartlog ${COPY_DIR}/MiB4_4_way_set/uartlog
 
 # Run sweep with 4 MiB 2-way
 firesim kill
@@ -117,9 +114,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_2_way_set/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/uartlog ${COPY_DIR}/MiB4_2_way_set/uartlog
-
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/run_result.csv ${COPY_DIR}/MiB4_2_way_set/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/uartlog ${COPY_DIR}/MiB4_2_way_set/uartlog
 
 # Run sweep with 4 MiB direct mapped
 firesim kill
@@ -131,9 +127,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/run_result.csv ${COPY_DIR}/MiB4_direct_mapped/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/uartlog ${COPY_DIR}/MiB4_direct_mapped/uartlog
-
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/run_result.csv ${COPY_DIR}/MiB4_direct_mapped/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/uartlog ${COPY_DIR}/MiB4_direct_mapped/uartlog
 
 # Run sweep with 32 MiB direct mapped
 firesim kill
@@ -145,6 +140,8 @@ firesim infrasetup
 firesim runworkload
 
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/run_result.csv ${COPY_DIR}/MiB32_direct_mapped/run_result.csv
-cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD_JOB_NAME}/uartlog ${COPY_DIR}/MiB32_direct_mapped/uartlog
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/run_result.csv ${COPY_DIR}/MiB32_direct_mapped/run_result.csv
+cp ${RESULT_DIR}/${RESULT_NAME}/${WORKLOAD}-${JOB}/uartlog ${COPY_DIR}/MiB32_direct_mapped/uartlog
 
+# Simulations done
+firesim terminaterunfarm
