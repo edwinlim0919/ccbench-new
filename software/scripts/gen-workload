@@ -6,7 +6,7 @@
 #     arg1: workload name
 #
 # Example Usage
-#     ./gen_workload caches-br.json
+#     ./gen-workload caches-br.json
 HOME_DIR=/home/centos/firesim
 WORK_DIR=${HOME_DIR}/deploy/workloads/ccbench-new
 MARSHAL_CONFIG_DIR=${WORK_DIR}/software/marshal-configs
@@ -16,6 +16,7 @@ cd $HOME_DIR
 source sourceme-f1-manager.sh
 
 cd /home/centos/firesim/target-design/chipyard/software/firemarshal
+./marshal clean ${MARSHAL_CONFIG_DIR}/${1}
 ./marshal build ${MARSHAL_CONFIG_DIR}/${1}
 ./marshal install ${MARSHAL_CONFIG_DIR}/${1}
 
