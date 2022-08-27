@@ -24,7 +24,7 @@ if len(sys.argv) != 4:
     print('Insufficient arguments provided.')
     quit()
 
-custom_runtime_configs = '~/firesim/sim/custom-runtime-configs/'
+custom_runtime_configs = '/home/centos/firesim/sim/custom-runtime-configs/'
 f = open(custom_runtime_configs + sys.argv[1], 'r')
 filedata = f.read()
 f.close()

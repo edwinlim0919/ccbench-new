@@ -5,9 +5,29 @@
   "linux-src" : "../../linux-versions/protomegaboom-linux",
   "jobs" : [
     {
-      "name" : "strided",
-      "outputs" : [ "/root/run_result.csv" ],
-      "run" : "runStrided.sh"
+      "name" : "stride-1",
+      "outputs" : [ "/root/stride-1.csv" ],
+      "run" : "run-stride-1.sh"
+    },
+    {
+      "name" : "stride-4",
+      "outputs" : [ "/root/stride-4.csv" ],
+      "run" : "run-stride-4.sh"
+    },
+    {
+      "name" : "stride-16",
+      "outputs" : [ "/root/stride-16.csv" ],
+      "run" : "run-stride-16.sh"
+    },
+    {
+      "name" : "stride-64",
+      "outputs" : [ "/root/stride-64.csv" ],
+      "run" : "run-stride-64.sh"
+    },
+    {
+      "name" : "stride-256",
+      "outputs" : [ "/root/stride-256.csv" ],
+      "run" : "run-stride-256.sh"
     }
   ]
 }
