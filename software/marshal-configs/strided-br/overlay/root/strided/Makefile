@@ -1,11 +1,11 @@
 CC=riscv64-unknown-linux-gnu-gcc
 CFLAGS=-Wall -std=gnu99 -fno-common -fno-builtin-printf -ffast-math -funroll-loops -I.
-C_SOURCES=strided.c cctimer.c
+C_SOURCES=strided.c
 CPP_SOURCES=steadytimer.cpp steadytimer_interface.cpp
 
 LD_FLAGS=-static -ffast-math
 LD_LIBS=-lm -lc -lstdc++
-OBJECTS=strided.o cctimer.o steadytimer.o steadytimer_interface.o
+OBJECTS=strided.o steadytimer.o steadytimer_interface.o
 
 compile: $(C_SOURCES) $(CPP_SOURCES)
 	$(CC) $(CFLAGS) -c $(C_SOURCES)

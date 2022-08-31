@@ -26,7 +26,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <cctimer.h>
 #include <steadytimer_interface.h>
 
 // Global Variables
