@@ -43,7 +43,7 @@ firesim launchrunfarm
 firesim infrasetup
 firesim runworkload
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-NO_LLC_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
+_NO_LLC_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
 firesim terminaterunfarm --forceterminate
 
 
@@ -58,7 +58,7 @@ done
 firesim infrasetup
 firesim runworkload
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-4MBLLC_8WAY_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
+_4MBLLC_8WAY_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
 firesim kill
 
 # Run sweep w/ 4 MiB 4-way LLC
@@ -68,7 +68,7 @@ done
 firesim infrasetup
 firesim runworkload
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-4MBLLC_4WAY_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
+_4MBLLC_4WAY_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
 firesim kill
 
 # Run sweep w/ 4 MiB 2-way LLC
@@ -78,7 +78,7 @@ done
 firesim infrasetup
 firesim runworkload
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-4MBLLC_2WAY_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
+_4MBLLC_2WAY_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
 firesim kill
 
 # Run sweep w/ 4 MiB direct mapped LLC
@@ -88,7 +88,7 @@ done
 firesim infrasetup
 firesim runworkload
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-4MBLLC_DMAP_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
+_4MBLLC_DMAP_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
 firesim kill
 
 # Run sweep w/ 32 MiB direct mapped LLC
@@ -98,5 +98,13 @@ done
 firesim infrasetup
 firesim runworkload
 RESULT_NAME=$(ls $RESULT_DIR -t | head -1)
-32MBLLC_DMAP_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
+_32MBLLC_DMAP_RESULT_DIR=${RESULT_DIR}/${RESULT_NAME}
 firesim terminaterunfarm --forceterminate
+
+
+echo "$_NO_LLC_RESULT_DIR"
+echo "$_4MBLLC_8WAY_RESULT_DIR"
+echo "$_4MBLLC_4WAY_RESULT_DIR"
+echo "$_4MBLLC_2WAY_RESULT_DIR"
+echo "$_4MBLLC_DMAP_RESULT_DIR"
+echo "$_32MBLLC_DMAP_RESULT_DIR"
