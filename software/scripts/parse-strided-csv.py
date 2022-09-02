@@ -1,12 +1,14 @@
 # Plots strided results for given result directories into a file specified by user
 #
 # Arguments
-#     arg1: no LLC result dir
-#     arg2: 4 MB 8 way LLC result dir
-#     arg3: 4 MB 4 way LLC result dir
-#     arg4: 4 MB 2 way LLC result dir
-#     arg5: 4 MB direct mapped LLC result dir
-#     arg6: 32 MB direct mapped LLC result dir
+#     arg1 : stride-1.csv (absolute path)
+#     arg2 : stride-4.csv (absolute path)
+#     arg3 : stride-16.csv (absolute path)
+#     arg4 : stride-64.csv (absolute path)
+#     arg5 : stride-256.csv (absolute path)
+#     arg6 : lower end of plot range (in bytes)
+#     arg7 : upper end of plot range (in bytes)
+#     arg8 : file in which to save plot (absolute path)
 #
 # Example Usage
 #
@@ -40,8 +42,14 @@ def remove_outliers(AppSizes, Times):
     return AppSizes_cleaned, Times_cleaned
 
 def plot_separate(AppSizes_clean, runTimeUs_clean, line_color, stride):
+    lower_range_bytes, upper_range_bytes = int(sys.argv[6]), int(sys.argv[7])
     NumBytes = [size * 4 for size in AppSizes_clean]
-    plt.plot(NumBytes, runTimeUs_clean, color=line_color, label=stride)
+    NumBytes_plot, runTimeUs_plot = [], []
+    for i in range(len(NumBytes)):
+        if (lower_range_bytes <= NumBytes[i]) and (NumBytes[i] <= upper_range_bytes):
+            NumBytes_plot.append(NumBytes[i])
+            runTimeUs_plot.append(runTimeUs_clean[i])
+    plt.plot(NumBytes_plot, runTimeUs_plot, color=line_color, label=stride)
     
 runTimeUs_stride = []
 AppSizes_stride = []
@@ -120,5 +128,5 @@ AppSizes_stride.clear()
 
 
 plt.legend()
-plt.savefig(sys.argv[6])
+plt.savefig(sys.argv[8])
 

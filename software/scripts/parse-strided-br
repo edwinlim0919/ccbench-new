@@ -3,16 +3,19 @@
 # Parses run results from strided-br workload and outputs FASED performance results
 # 
 # Arguments
-#     arg1: NO_LLC_RESULT_DIR
-#     arg2: 4MBLLC_8WAY_RESULT_DIR
-#     arg3: 4MBLLC_4WAY_RESULT_DIR
-#     arg4: 4MBLLC_2WAY_RESULT_DIR
-#     arg5: 4MBLLC_DMAP_RESULT_DIR
-#     arg6: 32MBLLC_DMAP_RESULT_DIR
-#     arg7: absolute path of where to store result plot
+#     arg1 : absolute path of directory containing result directories
+#     arg2 : NO_LLC_RESULT_DIR (relative to arg1)
+#     arg3 : 4MBLLC_8WAY_RESULT_DIR (relative to arg1)
+#     arg4 : 4MBLLC_4WAY_RESULT_DIR (relative to arg1)
+#     arg5 : 4MBLLC_2WAY_RESULT_DIR (relative to arg1)
+#     arg6 : 4MBLLC_DMAP_RESULT_DIR (relative to arg1)
+#     arg7 : 32MBLLC_DMAP_RESULT_DIR (relative to arg1)
+#     arg8 : lower end of plot range (in bytes)
+#     arg9 : upper end of plot range (in bytes)
 #
 # Example Usage
-#
+#     ./parse-strided-br /home/centos/firesim/deploy/results-workload TODO TODO TODO TODO TODO TODO 0 67108864
+#     ./parse-strided-br /home/centos/firesim/deploy/results-workload TODO TODO TODO TODO TODO TODO 0 65536
 
 # Testing values while sim is running
 _NO_LLC_RESULT_DIR=/home/centos/firesim/deploy/results-workload/2022-08-31--18-44-35-strided-br
@@ -21,40 +24,40 @@ _4MBLLC_4WAY_RESULT_DIR=/home/centos/firesim/deploy/results-workload/2022-08-31-
 _4MBLLC_2WAY_RESULT_DIR=/home/centos/firesim/deploy/results-workload/2022-08-31--20-40-18-strided-br
 #4MBLLC_DMAP_RESULT_DIR=/home/centos/firesim/deploy/results-workload/2022-08-31--21-17-15-strided-br
 #32MBLLC_DMAP_RESULT_DIR=/home/centos/firesim/deploy/results-workload/
-PLOT_PATH=/home/centos/firesim/deploy/workloads/ccbench-new/plots/testplot.pdf
-#RESULT_CSV_PATHS=(
-#    "strided-br-stride-1/stride-1.csv"
-#    "strided-br-stride-4/stride-4.csv"
-#    "strided-br-stride-16/stride-16.csv"
-#    "strided-br-stride-64/stride-64.csv"
-#    "strided-br-stride-256/stride-256.csv"
-#)
 
 python3 parse-strided-csv.py ${_NO_LLC_RESULT_DIR}/strided-br-stride-1/stride-1.csv \
                              ${_NO_LLC_RESULT_DIR}/strided-br-stride-4/stride-4.csv \
                              ${_NO_LLC_RESULT_DIR}/strided-br-stride-16/stride-16.csv \
                              ${_NO_LLC_RESULT_DIR}/strided-br-stride-64/stride-64.csv \
                              ${_NO_LLC_RESULT_DIR}/strided-br-stride-256/stride-256.csv \
-                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_NO_LLC.pdf
+                             ${8} \
+                             ${9} \
+                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_NO_LLC_2022-08-31--18-44-35-strided-br-${8}-${9}.pdf
 
 python3 parse-strided-csv.py ${_4MBLLC_8WAY_RESULT_DIR}/strided-br-stride-1/stride-1.csv \
                              ${_4MBLLC_8WAY_RESULT_DIR}/strided-br-stride-4/stride-4.csv \
                              ${_4MBLLC_8WAY_RESULT_DIR}/strided-br-stride-16/stride-16.csv \
                              ${_4MBLLC_8WAY_RESULT_DIR}/strided-br-stride-64/stride-64.csv \
                              ${_4MBLLC_8WAY_RESULT_DIR}/strided-br-stride-256/stride-256.csv \
-                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_4MBLLC_8WAY.pdf
+                             ${8} \
+                             ${9} \
+                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_4MBLLC_8WAY_2022-08-31--19-27-18-strided-br-${8}-${9}.pdf
 
 python3 parse-strided-csv.py ${_4MBLLC_4WAY_RESULT_DIR}/strided-br-stride-1/stride-1.csv \
                              ${_4MBLLC_4WAY_RESULT_DIR}/strided-br-stride-4/stride-4.csv \
                              ${_4MBLLC_4WAY_RESULT_DIR}/strided-br-stride-16/stride-16.csv \
                              ${_4MBLLC_4WAY_RESULT_DIR}/strided-br-stride-64/stride-64.csv \
                              ${_4MBLLC_4WAY_RESULT_DIR}/strided-br-stride-256/stride-256.csv \
-                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_4MBLLC_4WAY.pdf
+                             ${8} \
+                             ${9} \
+                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_4MBLLC_4WAY_2022-08-31--20-03-18-strided-br-${8}-${9}.pdf
 
 python3 parse-strided-csv.py ${_4MBLLC_2WAY_RESULT_DIR}/strided-br-stride-1/stride-1.csv \
                              ${_4MBLLC_2WAY_RESULT_DIR}/strided-br-stride-4/stride-4.csv \
                              ${_4MBLLC_2WAY_RESULT_DIR}/strided-br-stride-16/stride-16.csv \
                              ${_4MBLLC_2WAY_RESULT_DIR}/strided-br-stride-64/stride-64.csv \
                              ${_4MBLLC_2WAY_RESULT_DIR}/strided-br-stride-256/stride-256.csv \
-                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_4MBLLC_2WAY.pdf
+                             ${8} \
+                             ${9} \
+                             /home/centos/firesim/deploy/workloads/ccbench-new/plots/_4MBLLC_2WAY_2022-08-31--20-40-18-strided-br-${8}-${9}.pdf
 
