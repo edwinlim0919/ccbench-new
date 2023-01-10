@@ -1,6 +1,6 @@
 CC=riscv64-unknown-elf-gcc
-CFLAGS=-std=gnu99 -O2 -ffast-math -funroll-loops -I. -mcmodel=medany -g
-LD_FLAGS=-ffast-math -static
+CFLAGS=-fno-common -fno-builtin-printf -specs=htif_nano.specs -std=gnu99 -O2 -ffast-math -funroll-loops -I. -mcmodel=medany -g
+LD_FLAGS=-ffast-math -static -specs=htif_nano.specs
 LD_LIBS=-lm -lc
 SOURCES=caches.c cctimer.c cclfsr.c
 OBJECTS=caches.o cctimer.o cclfsr.o

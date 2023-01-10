@@ -42,9 +42,12 @@
 #include <cctimer.h>
 #include <cclfsr.h>
 #include <math.h>
+#include <malloc.h>
+#include <string.h>
+#include <float.h>
 
 // Global Variables
-double    MB_per_sec;
+double MB_per_sec;
 
 int g_stride;
 int g_run_type;  // choose between stride size, or random stride 
@@ -61,30 +64,24 @@ uint32_t verifyArray(uint32_t *arr_ptr, uint32_t num_elements, uint32_t stride);
 
 int main(int argc, char* argv[])
 {
-#ifdef DEBUG  
-   printf("\nBegin Test\n");
-#endif
+  printf("\nBegin Test\n");
+  g_run_type = 0; // set manually for baremetal version
 
-   g_run_type = 0; // set manually for baremetal version
+  if(g_run_type > 0) {
+    g_stride = g_run_type;
+  }
 
-   if(g_run_type > 0)
-      g_stride = g_run_type;
+  // random access should hit cache-line addresses, to eliminate
+  // spatial locality and force more misses.
+  if(g_run_type == 0) {
+    g_stride = CACHELINE_SZ;
+  }
 
-   // random access should hit cache-line addresses, to eliminate
-   // spatial locality and force more misses.
-   if(g_run_type == 0)
-   {
-      g_stride = CACHELINE_SZ;
-   }
+  // this volatile ret_val is crucial, otherwise the entire run-loop 
+  // gets optimized away! :(
+  uint32_t volatile ret_val = threadMain();  
 
-   // this volatile ret_val is crucial, otherwise the entire run-loop 
-   // gets optimized away! :(
-   uint32_t volatile ret_val = threadMain();  
-
-#ifdef DEBUG
-  fprintf(stderr, "Done. Exiting...\n\n");
-#endif
-
+  printf("Done. Exiting...\n");
   return 0;
 }
 
@@ -106,6 +103,7 @@ uint32_t runFunc(uint32_t num_elements, uint32_t num_iterations) {
 
   double const clk_freq = 1e9;
   uint32_t performed_iterations = num_iterations;
+  //printf("RUNFUNC: [num_elements=%u], [num_iterations=%u]\n", num_elements, num_iterations);
 
   /** CRITICAL SECTION **/
   cccycles_t start_cycles = cc_get_cycles(clk_freq);
@@ -138,17 +136,11 @@ uint32_t runFunc(uint32_t num_elements, uint32_t num_iterations) {
 
   cccycles_t stop_cycles = cc_get_cycles(clk_freq);
   run_cycles = stop_cycles - start_cycles;
-
-#ifdef DEBUG
-  fprintf(stderr, "Total_Cycles               : %lu\n", run_cycles);
-#endif
-
-  fprintf(stdout, "App:[caches],AppSize:[%d],Time:[%g], TimeUnits:[Cycles Per Iteration],NumIterations:[%u],RunType:[%d]\n",
+  printf("App:[caches], AppSize:[%u], NumCycles:[%lu], NumIterations:[%u], RunType:[%d]\n",
     num_elements,
-    ((double) run_cycles / (double) performed_iterations),
+    run_cycles,
     performed_iterations,
-    g_run_type
-  );
+    g_run_type);
   free(arr_n_ptr);
 
   // prevent compiler from removing ptr chasing...
@@ -396,22 +388,22 @@ uint32_t initializeGlobalArrays(uint32_t* arr_n_ptr, uint32_t num_elements, uint
 
 uint32_t printArray(uint32_t iter, uint32_t *arr_ptr, uint32_t num_elements, uint32_t stride )
 {
-   fprintf(stderr, "Chasing through Array (run thru for 2x*num_el/stride) after iteration: %d\n", iter);
+   printf("Chasing through Array (run thru for 2x*num_el/stride) after iteration: %d\n", iter);
    uint32_t idx = 0;
    for (uint32_t i = 0; i < 2*num_elements/stride; i++)
    {
-      fprintf(stderr, "%3d, ", arr_ptr[idx]);
+      printf("%3d, ", arr_ptr[idx]);
       idx = arr_ptr[idx];
    }
-   fprintf(stderr, "\n");
+   printf("\n");
    
-   fprintf(stderr, "arr_ptr: ");
+   printf("arr_ptr: ");
    for (uint32_t i = 0; i < num_elements; i++)
    {
-      if (i % stride == 0) fprintf(stderr, "\n");
-      fprintf(stderr, "%3d, ", arr_ptr[i]);
+      if (i % stride == 0) printf("\n");
+      printf("%3d, ", arr_ptr[i]);
    }
-   fprintf(stderr, "\n\n\n");
+   printf("\n\n\n");
 
    return 0;
 }
@@ -445,7 +437,7 @@ uint32_t verifyArray(uint32_t *arr_ptr, uint32_t num_elements, uint32_t stride)
       if(verify_array[i] != 1)  
       {
 #ifdef DEBUG
-         fprintf(stderr, "Error at Element [%d], accessed %d times\n", 
+         printf("Error at Element [%d], accessed %d times\n", 
             i,
             verify_array[i]
             );
@@ -456,14 +448,14 @@ uint32_t verifyArray(uint32_t *arr_ptr, uint32_t num_elements, uint32_t stride)
 
    if (counter==(num_elements/stride) && !error) {
 #ifdef DEBUG
-      fprintf(stderr,"Array verified\n\n");
+      printf("Array verified\n\n");
 #else
       int x=0; //here for compiler reasons
 #endif
    } 
    else 
    {
-      fprintf(stderr,"Error: Array size:%d, Stride size:%d, Loops in:%d (wants to loop in %d)\n\n",
+      printf("Error: Array size:%d, Stride size:%d, Loops in:%d (wants to loop in %d)\n\n",
          num_elements,
          stride,
          counter,
