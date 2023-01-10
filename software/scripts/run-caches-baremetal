@@ -1,0 +1,8 @@
+#!/bin/bash
+
+FIRESIM_CONFIGS=/scratch/edwinlim/hyperscale-soc-chipyard/ccbench-new/software/firesim-configs
+FIRESIM_DEPLOY=/scratch/edwinlim/hyperscale-soc-chipyard/sims/firesim/deploy
+
+cp ${FIRESIM_CONFIGS}/FASED_LLC_caches_baremetal_config_runtime.yaml ${FIRESIM_DEPLOY}/config_runtime.yaml
+firesim infrasetup
+firesim runworkload

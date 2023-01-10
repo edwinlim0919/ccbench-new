@@ -1,0 +1,6 @@
+{
+  "name" : "caches-baremetal",
+  "base" : "bare-base.json",
+  "host-init" : "build.sh",
+  "bin" : "caches-baremetal.riscv",
+}
